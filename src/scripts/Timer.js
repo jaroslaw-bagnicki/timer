@@ -1,41 +1,57 @@
 export class Timer {
-  constructor(DOMContainer) {
-    this.DOMContainer = DOMContainer;
+  constructor(DOMTimer, DOMResults) {
+    this.DOMTimer = DOMTimer;
+    this.DOMResults = DOMResults;
     this.isRunning = false;
-    this.timerInterval = null;
     this.startTime = null;
+    this.laps = 0;
+    this.timerInterval = null;
     this.render();
+  }
+
+  nextLap() {
+    return this.laps = this.laps + 1;
   }
 
   start() {
     if (!this.isRunning) {
+      this.DOMResults.innerHTML = '';
       this.startTime = Date.now();
       this.timerInterval = setInterval(() => this.render(), 90);
       this.isRunning = true;
     }
   }
 
-  stop() {
-    console.log('stop()');
+  lap() {
+    if (this.isRunning) {
+      const lapStats = document.createElement('li');
+      lapStats.innerText = `Lap ${this.nextLap()}: ${this.template()}`;
+      this.DOMResults.appendChild(lapStats);
+    }
   }
 
-  reset() {
+  stop() {
     if (this.isRunning) {
       this.startTime = null;
       clearInterval(this.timerInterval);
       this.isRunning = false;
+      this.laps = 0;
       this.render();
     }
   }
 
   render() {
     if (this.isRunning) {
-      const {m, s, cs} = this.calcTime();
-      const format = (number) => number.toString().padStart(2, '0');
-      this.DOMContainer.innerText = `${format(m)}:${format(s)}:${format(cs)} `;
+      this.DOMTimer.innerText = this.template();
     } else {
-      this.DOMContainer.innerText = '--:--:--';
+      this.DOMTimer.innerText = '--:--:--';
     }
+  }
+
+  template() {
+    const {m, s, cs} = this.calcTime();
+    const format = (number) => number.toString().padStart(2, '0');
+    return `${format(m)}:${format(s)}:${format(cs)}`;
   }
   
   calcTime() {
