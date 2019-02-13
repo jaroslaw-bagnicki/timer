@@ -13,7 +13,11 @@
   transition: .4s;
   cursor: pointer;
 
-  &:hover {
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
     font-weight: 700;
 
     &.start {
