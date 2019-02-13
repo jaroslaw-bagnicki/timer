@@ -44,10 +44,6 @@ export class Timer {
     diff = (diff - cs) / 100;
     const s = diff % 60;
     const m = (diff - s) / 60;
-    return {
-      m: m,
-      s: s,
-      cs: cs
-    };
+    return {m, s, cs};
   }
 }
