@@ -1,3 +1,5 @@
 # Simple timer implementation in JavaScript
 
-To start dev server type: `npm start`.
+### [Netlify deploy](https://relaxed-hodgkin-c29908.netlify.com/)
+
+To start dev server use: `npm start`.
