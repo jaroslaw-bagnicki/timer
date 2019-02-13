@@ -9,8 +9,12 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  background-color: $bg-color;
+}
+
 .container {
-  max-width: 30rem;
+  width: 90%;
   margin: 0 auto;
   padding: 1rem;
   display: flex;

@@ -1,0 +1,39 @@
+.button {
+  display: inline-block;
+  min-width: 7rem;
+  padding: .375rem 1.25rem;
+  margin: .5rem;
+  border: 3px solid transparent;
+  border-radius: .375rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: $base-font-color;
+  font-weight: 500;
+  text-decoration: none;
+  transition: .4s;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: 700;
+
+    &.start {
+      color: $green-font-color;
+      border-color: $green-font-color;
+    }
+
+    &.lap {
+      color: $yellow-font-color;
+      border-color: $yellow-font-color;
+    }
+
+    &.stop {
+      color: $red-font-color;
+      border-color: $red-font-color;
+    }
+
+    &.clear {
+      color: $dark-font-color;
+      border-color: $dark-font-color;
+    }
+  }
+}
