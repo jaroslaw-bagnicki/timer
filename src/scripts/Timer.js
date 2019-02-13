@@ -47,7 +47,6 @@ export class Timer {
   stop() {
     if (this.isRunning) {
       this.stoppedTimerLabel = this.template();
-      console.log(this.stoppedTimerLabel);
       this.startTime = null;
       clearInterval(this.timerInterval);
       this.isRunning = false;
