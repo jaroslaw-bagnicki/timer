@@ -1,12 +1,24 @@
 export class Timer {
-  constructor(DOMTimer, DOMResults) {
-    this.DOMTimer = DOMTimer;
-    this.DOMResults = DOMResults;
+  constructor(UI) {
+    this.UItimer = UI.timer;
+    this.UIresults = UI.results;
+    this.UIstartButton = UI.startButton;
+    this.UIlapButton = UI.lapButton;
+    this.UIstopButton = UI.stopButton;
+    this.UIclearButton = UI.clearButton;
+
+    this.UIstartButton.addEventListener('click', () => this.start());
+    this.UIlapButton.addEventListener('click', () => this.lap());
+    this.UIstopButton.addEventListener('click', () => this.stop());
+    this.UIclearButton.addEventListener('click', () => this.clearResults());
+
     this.isRunning = false;
     this.startTime = null;
+    this.stoppedTimerLabel = null;
     this.laps = 0;
     this.timerInterval = null;
     this.render();
+    this.toggleUI();
   }
 
   nextLap() {
@@ -15,10 +27,11 @@ export class Timer {
 
   start() {
     if (!this.isRunning) {
-      this.DOMResults.innerHTML = '';
+      this.clearResults();
       this.startTime = Date.now();
       this.timerInterval = setInterval(() => this.render(), 90);
       this.isRunning = true;
+      this.toggleUI();
     }
   }
 
@@ -26,25 +39,29 @@ export class Timer {
     if (this.isRunning) {
       const lapStats = document.createElement('li');
       lapStats.innerText = `Lap ${this.nextLap()}: ${this.template()}`;
-      this.DOMResults.appendChild(lapStats);
+      this.UIresults.appendChild(lapStats);
+      this.UIclearButton.disabled = false;
     }
   }
 
   stop() {
     if (this.isRunning) {
+      this.stoppedTimerLabel = this.template();
+      console.log(this.stoppedTimerLabel);
       this.startTime = null;
       clearInterval(this.timerInterval);
       this.isRunning = false;
       this.laps = 0;
       this.render();
+      this.toggleUI();
     }
   }
 
   render() {
     if (this.isRunning) {
-      this.DOMTimer.innerText = this.template();
+      this.UItimer.innerText = this.template();
     } else {
-      this.DOMTimer.innerText = '--:--:--';
+      this.UItimer.innerText = this.stoppedTimerLabel || '--:--:--';
     }
   }
 
@@ -61,5 +78,24 @@ export class Timer {
     const s = diff % 60;
     const m = (diff - s) / 60;
     return {m, s, cs};
+  }
+
+  clearResults() {
+    this.UIresults.innerHTML = '';
+    this.UItimer.innerText = '--:--:--';
+    this.stoppedTimerLabel = null;
+    this.UIclearButton.disabled = true;
+  }
+
+  toggleUI() {
+    const flag = this.isRunning;
+    this.UIstartButton.disabled = flag;
+    this.UIlapButton.disabled = !flag;
+    this.UIstopButton.disabled = !flag;
+    this.UIclearButton.disabled = this.isResultsEmpty;
+  }
+
+  get isResultsEmpty() {
+    return ((this.UIresults.innerHTML === '') && (this.stoppedTimerLabel === null)) ? true : false;
   }
 }

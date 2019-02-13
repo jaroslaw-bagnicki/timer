@@ -1,18 +1,20 @@
 import './styles/main.scss';
 import { Timer } from './scripts/Timer';
 
-// Creating instance of Timer
-const stopWatch = new Timer(
-  document.querySelector('#timer'),
-  document.querySelector('#results')
-);
-
-// Bind UI & event listeners
+// Bind UI
+const timer = document.querySelector('#timer');
 const startButton = document.querySelector('#start');
-startButton.addEventListener('click', () => stopWatch.start());
+const lapButton = document.querySelector('#lap');
+const stopButton = document.querySelector('#stop');
+const clearButton = document.querySelector('#clear');
+const results = document.querySelector('#results');
 
-const stopButton = document.querySelector('#lap');
-stopButton.addEventListener('click', () => stopWatch.lap());
-
-const resetButton = document.querySelector('#stop');
-resetButton.addEventListener('click', () => stopWatch.stop());
+// Creating instance of Timer
+const stopWatch = new Timer({
+  timer, 
+  results, 
+  startButton, 
+  lapButton, 
+  stopButton, 
+  clearButton
+});
