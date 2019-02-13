@@ -31,7 +31,8 @@ export class Timer {
   render() {
     if (this.isRunning) {
       const {m, s, cs} = this.calcTime();
-      this.DOMContainer.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}:${cs.toString().padStart(2, '0')} `;
+      const format = (number) => number.toString().padStart(2, '0');
+      this.DOMContainer.innerText = `${format(m)}:${format(s)}:${format(cs)} `;
     } else {
       this.DOMContainer.innerText = '--:--:--';
     }
